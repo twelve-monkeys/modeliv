@@ -10,7 +10,7 @@ exports.state = state;
 function server(target, name, descriptor) {
     //    console.log("action: " + name);
     _actions.push({ target: target, name: name, descriptor: descriptor });
-    //return descriptor;
+    // return descriptor;
     // if(!_states.any(c => c == target))
     //     throw new Error("@action must be delcared on a method inside a @state class");
 }
@@ -27,9 +27,9 @@ function dispatch(actionName, args) {
         for (var _i = 0, instances_1 = instances; _i < instances_1.length; _i++) {
             var instance = instances_1[_i];
             console.log("=> " + instance.name);
-            old = JSON.stringify(instance.instance.getAll());
+            var old = JSON.stringify(instance.instance.getAll());
             instance.instance[action.name].apply(instance.instance, args);
-            value = instance.instance.getAll();
+            var value = instance.instance.getAll();
             if (old !== JSON.stringify(value)) {
                 console.log("new version from " + instance.instance.version);
                 value.version = instance.instance.version = (instance.instance.version || 0) + 1;
@@ -40,7 +40,6 @@ function dispatch(actionName, args) {
             }
         }
     };
-    var old, value;
     for (var _a = 0, actions_1 = actions; _a < actions_1.length; _a++) {
         var action = actions_1[_a];
         _loop_1(action);
@@ -82,6 +81,14 @@ function actions(name, instance) {
 exports.actions = actions;
 exports.ActionsProxy = new Proxy({}, {
     get: function (target, name) {
+        if (name === "toJSON")
+            return function () {
+                return "[Proxy]";
+            };
+        if (name === "inspect")
+            return function () {
+                return "[Proxyinspect]";
+            };
         return function () {
             var args = [];
             for (var _i = 0; _i < arguments.length; _i++) {
