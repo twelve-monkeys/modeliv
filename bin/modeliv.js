@@ -3,12 +3,12 @@ var _states = [];
 var _actions = [];
 var _instances = [];
 function state(constructor) {
-    //    console.log("state: " + (constructor as any).name);
+    console.log("state: " + constructor.name);
     _states.push(constructor);
 }
 exports.state = state;
 function server(target, name, descriptor) {
-    //    console.log("action: " + name);
+    console.log("action: " + name);
     _actions.push({ target: target, name: name, descriptor: descriptor });
     // return descriptor;
     // if(!_states.any(c => c == target))
@@ -75,7 +75,7 @@ function getStoreVersions() {
 }
 exports.getStoreVersions = getStoreVersions;
 function actions(name, instance) {
-    //    console.log("instance: " + instance.constructor.name);
+    console.log("instance: " + instance.constructor.name);
     _instances.push({ name: name, instance: instance });
 }
 exports.actions = actions;

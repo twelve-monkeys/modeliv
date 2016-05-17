@@ -4,12 +4,12 @@ const _actions = [];
 const _instances = [];
 
 export function state(constructor: Function) {
-    //    console.log("state: " + (constructor as any).name);
+    console.log("state: " + (constructor as any).name);
     _states.push(constructor);
 }
 
 export function server(target: Object, name: string, descriptor: PropertyDescriptor) {
-    //    console.log("action: " + name);
+    console.log("action: " + name);
     _actions.push({ target, name, descriptor });
     // return descriptor;
     // if(!_states.any(c => c == target))
@@ -72,7 +72,7 @@ export function getStoreVersions() {
 }
 
 export function actions(name: string, instance: any) {
-    //    console.log("instance: " + instance.constructor.name);
+    console.log("instance: " + instance.constructor.name);
     _instances.push({ name, instance });
 }
 
