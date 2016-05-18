@@ -1,11 +1,29 @@
 const _states = [];
 const _actions = [];
 
-const _instances = [];
+let _instances = [];
 
 export function state(constructor: Function) {
     console.log("state: " + (constructor as any).name);
     _states.push(constructor);
+
+
+    return <void><any>((...args: any[]) => {
+        
+        var args = [null].concat(args);
+        var factoryFunction = constructor.bind.apply(constructor, args);
+        var t =  new factoryFunction();
+
+        return new Proxy({}, {
+            get(target, name) {
+                console.log("getting " + name + " from " + JSON.stringify(t));
+                return target[name];
+            }
+        });
+
+
+        //        constructor(args);
+    });
 }
 
 export function server(target: Object, name: string, descriptor: PropertyDescriptor) {
@@ -18,7 +36,7 @@ export function server(target: Object, name: string, descriptor: PropertyDescrip
 
 const messages = [];
 
-function dispatch(actionName: string, args: any[]) {
+function dispatch(tier, actionName: string, args: any[]) {
     console.log("dispatch: " + actionName + "(" + JSON.stringify(args).slice(1, -1) + ")");
     const actions = _actions.filter(a => a.name === actionName);
     if (!actions.length)
@@ -27,7 +45,7 @@ function dispatch(actionName: string, args: any[]) {
     for (const action of actions) {
         console.log("looking for instance of action. " + _instances.length + " total instances of actions");
         const instances = _instances.filter(i => i.instance.constructor === action.target.constructor);
-        for (const instance of instances) {
+        for (const instance of instances.filter(i => i.instance.tier === tier)) {
             console.log("=> " + instance.name);
             const old = JSON.stringify(instance.instance.getAll());
             instance.instance[action.name].apply(instance.instance, args);
@@ -36,7 +54,6 @@ function dispatch(actionName: string, args: any[]) {
                 console.log("new version from " + instance.instance.version);
                 value.version = instance.instance.version = (instance.instance.version || 0) + 1;
                 console.log("to " + instance.instance.version);
-                console.log("yes " + value.version);
                 messages.push({ store: instance.name, action: "setAll", value });
                 console.log("message: " + JSON.stringify(messages[messages.length - 1]));
             }
@@ -50,7 +67,7 @@ export function messagesFor(sv: any[][]) {
     for (const instance of _instances) {
         const existing_version = instance.instance.version || 0;
         let has_already = false;
-        for (const  store_version of sv) {
+        for (const store_version of sv) {
             const store = store_version[0];
             const version = store_version[1];
             if (store === instance.name && version >= existing_version)
@@ -76,11 +93,16 @@ export function actions(name: string, instance: any) {
     _instances.push({ name, instance });
 }
 
+export function dispose(name: string, instance: any) {
+    console.log("dispose: " + instance.constructor.name);
+    _instances = _instances.filter(i => i.name !== name || i.instance !== instance);
+}
+
 declare class Proxy {
     constructor(object, handler);
 }
 
-export const ActionsProxy = <any>new Proxy({}, {
+export const ActionsProxy = (tier) => <any>new Proxy({}, {
     get(target, name) {
         if (name === "toJSON")
             return () =>
@@ -90,7 +112,7 @@ export const ActionsProxy = <any>new Proxy({}, {
                 "[Proxyinspect]";
 
         return (...args: any[]) =>
-            dispatch(name, args);
+            dispatch(tier, name, args);
     }
 });
 
