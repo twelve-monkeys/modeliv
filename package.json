@@ -9,40 +9,20 @@
   "main": "./bin/modeliv.js",
   "typings": "./bin/modeliv.d.ts",
   "scripts": {
-    "clean": "rm -r -f bin",
-    "lint": "tslint src/modeliv.ts",
-    "build": "npm run clean && tsc src/modeliv.ts -t es5 --experimentalDecorators --m commonjs --sourceMap -d --outDir bin && npm run lint",
-    "watch": "npm run clean && start tsc src/modeliv.ts -t es5 --experimentalDecorators --m commonjs --sourceMap -d --outDir bin --watch",
-    "build-tests": "tsc src/tests/spec.ts -t es5 --experimentalDecorators --jsx preserve --m commonjs --inlineSourceMap --outDir bin && npm run lint",
-    "watch-tests": "start tsc src/tests/spec.ts -t es5 --experimentalDecorators --jsx preserve --m commonjs --inlineSourceMap --outDir bin --watch",
-    "test": "npm run build-tests && npm run test-phantom",
-    "test-phantom": "npm run build-tests && karma start --single-run",
-    "test-chrome": "npm run build-tests && karma start --single-run --browsers Chrome",
-    "test-require": "npm run build && npm install -g . && npm ls -g && cd test && node test-require.js && cd .. && npm remove -g .",
+    "build": "gulp build",
+    "test": "gulp test",
     "publish-patch": "npm run build && npm run build-tests && npm version patch && npm publish",
     "publish-minor": "npm run build && npm run build-tests && npm version minor && npm publish"
   },
   "keywords": [
-    "react",
-    "jsx",
-    "incremental",
+    "reactiv",
+    "flux",
+    "model",
     "virtual",
     "dom"
   ],
   "author": "jeremy kothe",
   "license": "ISC",
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "jasmine-core": "^2.4.1",
-    "karma": "^0.13.22",
-    "karma-browserify": "^5.0.5",
-    "karma-chrome-launcher": "^1.0.1",
-    "karma-jasmine": "^1.0.2",
-    "karma-junit-reporter": "^1.0.0",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "phantomjs-prebuilt": "^2.1.7",
-    "tslint": "^3.10.2",
-    "typescript": "^1.8.10",
-    "watchify": "^3.7.0"
   }
 }
