@@ -25,7 +25,7 @@
   "author": "jeremy kothe",
   "license": "ISC",
   "devDependencies": {
-    "monkeydo": "^0.1.2",
+    "monkeydo": "^0.1.3",
     "monkeydo-cli": "^0.1.1"
   }
 }
