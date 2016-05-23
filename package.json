@@ -9,12 +9,13 @@
   "main": "./bin/modeliv.js",
   "typings": "./bin/modeliv.d.ts",
   "scripts": {
-    "build": "gulp build",
-    "test": "gulp test",
-    "publish-patch": "npm run build && npm run build-tests && npm version patch && npm publish",
-    "publish-minor": "npm run build && npm run build-tests && npm version minor && npm publish"
+    "build": "monkeydo build",
+    "test": "monkeydo test",
+    "publish-patch": "npm run test && npm version patch && npm publish",
+    "publish-minor": "npm run test && npm version minor && npm publish"
   },
   "keywords": [
+    "react",
     "reactiv",
     "flux",
     "model",
@@ -24,5 +25,7 @@
   "author": "jeremy kothe",
   "license": "ISC",
   "devDependencies": {
+    "monkeydo": "^0.1.1",
+    "monkeydo-cli": "^0.1.1"
   }
 }
