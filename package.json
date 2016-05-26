@@ -9,8 +9,8 @@
   "main": "./bin/modeliv.js",
   "typings": "./bin/modeliv.d.ts",
   "scripts": {
-    "build": "monkeydo build",
-    "test": "monkeydo test",
+    "build": "node node_modules/g6-cli/cli.js build",
+    "test": "node node_modules/g6-cli/cli.js test",
     "publish-patch": "npm run test && npm version patch && npm publish",
     "publish-minor": "npm run test && npm version minor && npm publish"
   },
@@ -25,7 +25,7 @@
   "author": "jeremy kothe",
   "license": "ISC",
   "devDependencies": {
-    "monkeydo": "^0.1.5",
-    "monkeydo-cli": "^0.1.1"
+    "g6": "*",
+    "g6-cli": "*"
   }
 }
