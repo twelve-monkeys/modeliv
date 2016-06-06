@@ -43,7 +43,7 @@ export function state(constructor: Function) {
                         var l = _instances.length;
                         _instances = _instances.filter(i => i.instance !== instance);
                         if (_instances.length - l == 0)
-                            console.log("disposed 0 from " + JSON.stringify(_instances));
+                            console.log("disposed 0 from: " + JSON.stringify(_instances));
 
                         console.log("disposed " + (l - _instances.length));
 

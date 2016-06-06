@@ -74,7 +74,7 @@
 	                        var l = _instances.length;
 	                        _instances = _instances.filter(function (i) { return i.instance !== instance; });
 	                        if (_instances.length - l == 0)
-	                            console.log("disposed 0 from " + JSON.stringify(_instances));
+	                            console.log("disposed 0 from: " + JSON.stringify(_instances));
 	                        console.log("disposed " + (l - _instances.length));
 	                        if (instance.dispose)
 	                            instance.dispose();
@@ -204,4 +204,5 @@
 
 /***/ }
 /******/ ])));
-//# sourceMappingURL=modeliv.entry.js.map
+//# sourceMappingURL=modeliv.js.map
+//# sourceURL=modeliv.entry.ts
